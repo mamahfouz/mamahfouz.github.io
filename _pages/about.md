@@ -27,7 +27,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am an AI Research Lead (Vice President) at J.P. Morgan [AI Research](https://www.jpmorgan.com/global/technology/artificial-intelligence), an academic research lab led by Prof. [Manuela Veloso](https://www.wsj.com/articles/jpmorgan-taps-carnegie-mellon-professor-for-new-artificial-intelligence-role-1525374000). I am also a part-time Ph.D. student at Imperial College London supervised by Prof. [Danilo Mandic](http://www.commsp.ee.ic.ac.uk/~mandic/) and Prof. [Anthony G. Constantinides](https://en.wikipedia.org/wiki/Anthony_G._Constantinides).
+I am an AI Research Lead (Vice President) at J.P. Morgan [AI Research](https://www.jpmorgan.com/technology/artificial-intelligence/about), an academic research lab led by Prof. [Manuela Veloso](https://en.wikipedia.org/wiki/Manuela_M._Veloso). I am also a Ph.D. student (part-time)at Imperial College London supervised by Prof. [Danilo Mandic](https://profiles.imperial.ac.uk/d.mandic).
 
 I am interested in solving sequential decision making problems in large multi-agent systems through various techniques including reinforcement learning and imitation learning utilising agent-based models and LLM-based foundation models. I primarily focus on algorithmic trading problems in limit order book markets covering classical quantitative finance problems such as asset allocation and optimal trade execution.
 
