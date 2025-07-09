@@ -441,7 +441,7 @@ ninja.data = [{
         title: 'ACM DL',
         section: 'Socials',
         handler: () => {
-          window.open("https://dl.acm.org/profile/https://dl.acm.org/profile/99659891556/", "_blank");
+          window.open("https://dl.acm.org/profile/99659891556/", "_blank");
         },
       },{
         id: 'social-dblp',
@@ -476,14 +476,14 @@ ninja.data = [{
         title: 'ORCID',
         section: 'Socials',
         handler: () => {
-          window.open("https://orcid.org/https://orcid.org/0000-0002-5953-2111", "_blank");
+          window.open("https://orcid.org/0000-0002-5953-2111", "_blank");
         },
       },{
         id: 'social-researchgate',
         title: 'ResearchGate',
         section: 'Socials',
         handler: () => {
-          window.open("https://www.researchgate.net/profile/https://www.researchgate.net/scientific-contributions/Mahmoud-Mahfouz-2154762670/", "_blank");
+          window.open("https://www.researchgate.net/profile/Mahmoud-Mahfouz-2154762670/", "_blank");
         },
       },{
         id: 'social-scholar',
@@ -497,7 +497,7 @@ ninja.data = [{
         title: 'Semantic Scholar',
         section: 'Socials',
         handler: () => {
-          window.open("https://www.semanticscholar.org/author/https://www.semanticscholar.org/author/Mahmoud-Mahfouz/2065400523", "_blank");
+          window.open("https://www.semanticscholar.org/author/Mahmoud-Mahfouz", "_blank");
         },
       },{
         id: 'social-x',
