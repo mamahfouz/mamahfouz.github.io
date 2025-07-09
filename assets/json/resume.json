@@ -91,7 +91,7 @@
       "url": "",
       "area": "Mechatronic Engineering",
       "studyType": "MEng",
-      "startDate": "200",
+      "startDate": "2000",
       "endDate": "2014",
       "score": "",
       "courses": []
@@ -144,16 +144,16 @@
   "languages": [
     {
       "language": "English",
-      "fluency": "Native speaker",
+      "fluency": "",
       "icon": ""
     },
     {
       "language": "Arabic",
-      "fluency": "Native speaker",
+      "fluency": "",
       "icon": ""
     }
   ],
-  "interests": ["AI", "Politics", "Philosophy of Religion", "Gossiping", "Coffee Breaks", "..."],
+  "interests": [],
   "references": [],
   "projects": []
 }

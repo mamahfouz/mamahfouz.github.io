@@ -2,7 +2,7 @@
 # the commented lines are the default social media links supported by the template
 # the socials will be displayed in the order they are defined here
 
-acm_id: https://dl.acm.org/profile/99659891556 # your dl.acm.org/profile/id
+acm_id: 99659891556 # your dl.acm.org/profile/id
 # blogger_url: # your blogger URL
 # bluesky_url: # your bluesky URL
 dblp_url: https://dblp.org/pid/237/9962.html # your DBLP profile url
@@ -23,16 +23,16 @@ github_username: mamahfouz # your GitHub user name
 linkedin_username: mahfouz1991 # your LinkedIn user name
 # mastodon_username: # your mastodon instance+username in the format instance.tld/@username
 # medium_username: # your Medium username
-orcid_id: https://orcid.org/0000-0002-5953-2111 # your ORCID ID
+orcid_id: 0000-0002-5953-2111 # your ORCID ID
 # osf_id: # your OSF ID
 # pinterest_id: # your pinterest id
 # publons_id: # your ID on Publons
 # quora_username: # your Quora username
-research_gate_profile: https://www.researchgate.net/scientific-contributions/Mahmoud-Mahfouz-2154762670 # your profile on ResearchGate
+research_gate_profile: Mahmoud-Mahfouz-2154762670 # your profile on ResearchGate
 # rss_icon: true # comment this line to hide the RSS icon
 scholar_userid: FAusNh8AAAAJ # your Google Scholar ID
 # scopus_id: # your profile on Scopus
-semanticscholar_id: https://www.semanticscholar.org/author/Mahmoud-Mahfouz/2065400523 # your Semantic Scholar ID
+semanticscholar_id: Mahmoud-Mahfouz # your Semantic Scholar ID
 # spotify_id: # your spotify id
 # stackoverflow_id: # your stackoverflow id
 # telegram_username: # your Telegram user name
