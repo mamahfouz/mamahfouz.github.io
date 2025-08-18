@@ -4,24 +4,24 @@ const ninja = document.querySelector('ninja-keys');
 // add the home and posts menu items
 ninja.data = [{
     id: "nav-about",
-    title: "About",
+    title: "about",
     section: "Navigation",
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-cv",
+  },{id: "nav-publications",
+          title: "publications",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-cv",
           title: "CV",
           description: "",
           section: "Navigation",
           handler: () => {
             window.location.href = "/cv/";
-          },
-        },{id: "nav-publications",
-          title: "Publications",
-          description: "",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/publications/";
           },
         },{id: "post-a-post-with-plotly-js",
         
@@ -43,17 +43,6 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/blog/2024/photo-gallery/";
-          
-        },
-      },{id: "post-google-gemini-updates-flash-1-5-gemma-2-and-project-astra",
-        
-          title: 'Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
-        
-        description: "We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.",
-        section: "Posts",
-        handler: () => {
-          
-            window.open("https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/", "_blank");
           
         },
       },{id: "post-a-post-with-tabs",
@@ -276,17 +265,6 @@ ninja.data = [{
             window.location.href = "/blog/2022/giscus-comments/";
           
         },
-      },{id: "post-displaying-external-posts-on-your-al-folio-blog",
-        
-          title: 'Displaying External Posts on Your al-folio Blog <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
-        
-        description: "",
-        section: "Posts",
-        handler: () => {
-          
-            window.open("https://medium.com/@al-folio/displaying-external-posts-on-your-al-folio-blog-b60a1d241a0a?source=rss-17feae71c3c4------2", "_blank");
-          
-        },
       },{id: "post-a-post-with-redirect",
         
           title: "a post with redirect",
@@ -386,12 +364,58 @@ ninja.data = [{
             window.location.href = "/blog/2015/formatting-and-links/";
           
         },
-      },{id: "news-a-long-announcement-with-details",
-          title: 'A long announcement with details',
+      },{id: "news-our-preprint-compression-and-interpretability-of-deep-neural-networks-via-tucker-tensor-layer-is-available-on-arxiv",
+          title: 'Our preprint, “Compression and interpretability of deep neural networks via tucker tensor layer,”...',
           description: "",
-          section: "News",handler: () => {
-              window.location.href = "/news/announcement_2/";
-            },},{id: "projects-project-1",
+          section: "News",},{id: "news-presented-how-to-evaluate-trading-strategies-single-agent-market-replay-or-multiple-agent-interactive-simulation-at-the-icml-2019-workshop-on-ai-in-finance",
+          title: 'Presented “How to Evaluate Trading Strategies: Single Agent Market Replay or Multiple Agent...',
+          description: "",
+          section: "News",},{id: "news-our-paper-on-the-importance-of-opponent-modeling-in-auction-markets-was-presented-at-the-neurips-2019-workshop-on-robust-ai-in-financial-services",
+          title: 'Our paper, “On the Importance of Opponent Modeling in Auction Markets,” was presented...',
+          description: "",
+          section: "News",},{id: "news-presented-our-paper-get-real-realism-metrics-for-robust-limit-order-book-market-simulations-at-the-neurips-2019-workshop-on-robust-ai-in-financial-services",
+          title: 'Presented our paper, “Get Real: Realism Metrics for Robust Limit Order Book Market...',
+          description: "",
+          section: "News",},{id: "news-our-paper-generating-synthetic-data-in-finance-opportunities-challenges-and-pitfalls-was-presented-at-the-acm-international-conference-on-ai-in-finance-icaif-2020",
+          title: 'Our paper, “Generating synthetic data in finance: opportunities, challenges and pitfalls,” was presented...',
+          description: "",
+          section: "News",},{id: "news-presented-our-research-how-robust-are-limit-order-book-representations-under-data-perturbation-at-the-icml-2021-workshop-on-representation-learning-for-finance-and-e-commerce-applications",
+          title: 'Presented our research, “How Robust are Limit Order Book Representations under Data Perturbation?,”...',
+          description: "",
+          section: "News",},{id: "news-our-new-preprint-a-framework-for-institutional-risk-identification-using-knowledge-graphs-and-automated-news-profiling-is-now-available-on-arxiv",
+          title: 'Our new preprint, “A Framework for Institutional Risk Identification using Knowledge Graphs and...',
+          description: "",
+          section: "News",},{id: "news-pleased-to-present-our-paper-learning-to-classify-and-imitate-trading-agents-in-continuous-double-auction-markets-at-the-acm-international-conference-on-ai-in-finance-icaif-2021",
+          title: 'Pleased to present our paper, “Learning to Classify and Imitate Trading Agents in...',
+          description: "",
+          section: "News",},{id: "news-our-patent-system-and-method-for-institutional-risk-identification-using-automated-news-profiling-and-recommendation-has-been-filed",
+          title: 'Our patent, “System and method for institutional risk identification using automated news profiling...',
+          description: "",
+          section: "News",},{id: "news-our-work-towards-robust-representation-of-limit-orders-books-for-deep-learning-models-is-available-on-arxiv-this-work-explores-the-stability-of-lob-representations",
+          title: 'Our work, “Towards Robust Representation of Limit Orders Books for Deep Learning Models,”...',
+          description: "",
+          section: "News",},{id: "news-our-paper-finrddl-can-ai-planning-be-used-for-quantitative-finance-problems-has-been-published-in-the-proceedings-of-the-finplan-2023-workshop",
+          title: 'Our paper, “FinRDDL: Can AI planning be used for quantitative finance problems?,” has...',
+          description: "",
+          section: "News",},{id: "news-presented-our-work-towards-asset-allocation-using-behavioural-cloning-and-reinforcement-learning-at-the-aaai-2023-bridge-program-on-ai-for-financial-services",
+          title: 'Presented our work, “Towards Asset Allocation Using Behavioural Cloning and Reinforcement Learning,” at...',
+          description: "",
+          section: "News",},{id: "news-our-patent-application-for-a-method-and-system-for-providing-dynamic-workspace-scheduler-has-been-published",
+          title: 'Our patent application for a “Method and system for providing dynamic workspace scheduler”...',
+          description: "",
+          section: "News",},{id: "news-our-patent-application-for-a-method-and-system-for-solving-reconciliation-tasks-by-integrating-clustering-and-optimization-has-been-published",
+          title: 'Our patent application for a “Method and system for solving reconciliation tasks by...',
+          description: "",
+          section: "News",},{id: "news-our-work-on-capacity-planning-and-scheduling-for-jobs-with-uncertainty-in-resource-usage-and-duration-has-been-published-in-the-journal-of-supercomputing",
+          title: 'Our work on “Capacity planning and scheduling for jobs with uncertainty in resource...',
+          description: "",
+          section: "News",},{id: "news-our-paper-the-state-of-the-art-of-large-language-models-on-chartered-financial-analyst-exams-was-presented-at-the-emnlp-2024-industry-track-in-miami-florida",
+          title: 'Our paper, “The State of the Art of Large Language Models on Chartered...',
+          description: "",
+          section: "News",},{id: "news-happy-to-share-our-latest-work-entropy-aware-branching-for-improved-mathematical-reasoning-which-is-now-available-as-a-preprint-on-arxiv",
+          title: 'Happy to share our latest work, “Entropy-Aware Branching for Improved Mathematical Reasoning,” which...',
+          description: "",
+          section: "News",},{id: "projects-project-1",
           title: 'project 1',
           description: "with background image",
           section: "Projects",handler: () => {
