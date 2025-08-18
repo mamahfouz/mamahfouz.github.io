@@ -6,7 +6,7 @@
     "email": "me@mamahfouz.com",
     "phone": "",
     "url": "",
-    "summary": "AI Research Lead (Vice President) @ J.P. Morgan & PhD Student @ Imperial College London",
+    "summary": "AI Research Lead @ J.P. Morgan AI Research & PhD Student @ Imperial College London",
     "location": {
       "address": "",
       "postalCode": "",
@@ -46,7 +46,7 @@
     },
     {
       "name": "Goldman Sachs",
-      "position": "Software Engineer (Intern)",
+      "position": "Software Engineer | Summer Intern",
       "url": "",
       "startDate": "2013",
       "endDate": "2013",
@@ -55,7 +55,7 @@
     },
     {
       "name": "Culham Centre for Fusion Energy",
-      "position": "Robotics Engineer (Intern)",
+      "position": "Robotics Engineer | Summer Intern",
       "url": "",
       "startDate": "2013",
       "endDate": "2013",
@@ -64,7 +64,7 @@
     },
     {
       "name": "Agilent Technologies",
-      "position": "Technical Sales Engineer (Intern)",
+      "position": "Internal Technical Sales Engineer | Year Placement",
       "url": "",
       "startDate": "2011",
       "endDate": "2012",
@@ -76,10 +76,10 @@
   "education": [
     {
       "institution": "Imperial College London",
-      "location": "London, United Kingdom",
+      "location": "London, UK",
       "url": "",
-      "area": "Machine Learning",
-      "studyType": "PhD (part-time)",
+      "area": "Artificial Intelligence",
+      "studyType": "Doctor of Philosophy (PhD)",
       "startDate": "2018",
       "endDate": "2025",
       "score": "",
@@ -87,10 +87,10 @@
     },
     {
       "institution": "The University of Manchester",
-      "location": "Manchester, United Kingdom",
+      "location": "Manchester, UK",
       "url": "",
       "area": "Mechatronic Engineering",
-      "studyType": "MEng",
+      "studyType": "Master of Engineering (MEng)",
       "startDate": "2009",
       "endDate": "2014",
       "score": "",
@@ -110,14 +110,7 @@
   ],
   "awards": [
     {
-      "title": "President's Doctoral Scholar Award",
-      "date": "201",
-      "awarder": "The University of Manchester",
-      "url": "",
-      "summary": ""
-    },
-    {
-      "title": "MEng Student Third Prize",
+      "title": "President's Doctoral Scholarship",
       "date": "2014",
       "awarder": "The University of Manchester",
       "url": "",
@@ -127,13 +120,6 @@
       "title": "BP Integrated Master's Scholarship",
       "date": "2014",
       "awarder": "BP",
-      "url": "",
-      "summary": ""
-    },
-    {
-      "title": "TargetJobs Undergraduate of the Year Award Finalist",
-      "date": "2013",
-      "awarder": "EDF Energy",
       "url": "",
       "summary": ""
     }

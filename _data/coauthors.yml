@@ -1,54 +1,71 @@
-"Manuela":
- - firstname: ["Manuela"]
- - lastname: ["Veloso"]
-   url: https://scholar.google.com/citations?user=2FbkAzYAAAAJ&hl=en
+"veloso":
+ - firstname: ["Manuela", "M.", "M. V.", "Manuela M. Veloso"]
+   url: https://en.wikipedia.org/wiki/Manuela_M._Veloso
 
-"Danilo":
-  - firstname: ["Danilo"]
-  - lastname: ["Mandic"]
-    url: https://en.wikipedia.org/wiki/Danilo_Mandic
+"mandic":
+  - firstname: ["Danilo", "D.", "D. M.", "Danilo Mandic"]
+    url: https://scholar.google.co.uk/citations?user=hcxWZkcAAAAJ&hl=en
 
-"Tucker":
- - firstname: ["Tucker"]
- - lastname: ["Balch"]
-   url: https://www.cc.gatech.edu/people/tucker-balch
+"balch":
+ - firstname: ["Tucker", "T.", "T. B.", "Tucker Balch"]
+   url: https://scholar.google.com/citations?user=jM1cT4QAAAAJ&hl=en
 
-"Prashant":
-  - firstname: ["Prashant"]
-  - lastname: ["Reddy"]
+"borrajo":
+  - firstname: ["Daniel", "D.", "D. B.", "Daniel Borrajo"]
+    url: https://scholar.google.com/citations?user=gWi0D8IAAAAJ&hl=en
+
+"reddy":
+  - firstname: ["Prashant", "P.", "P. R.", "Prashant Reddy"]
     url: https://scholar.google.com/citations?user=jwQvlI0AAAAJ&hl=en
 
-"Angelos":
-  - firstname: ["Angelos"]
-  - lastname: ["Filos"]
+"filos":
+  - firstname: ["Angelos", "A.", "A. F.", "Angelos Filos"]
     url: https://scholar.google.com/citations?user=SGjYdrEAAAAJ&hl=en
 
-"Sammy":
-  - firstname: ["Samuel"]
-  - lastname: ["Assefa"]
+"assefa":
+  - firstname: ["Samuel", "S.", "S. A.", "Samuel Assefa"]
     url: https://scholar.google.com/citations?user=NVQkD5AAAAAJ&hl=en
 
-"Sameena":
-  - firstname: ["Sameena"]
-  - lastname: ["Shah"]
+"shah":
+  - firstname: ["Sameena", "S.", "S. S.", "Sameena Shah"]
     url: https://scholar.google.com/citations?hl=en&user=xgU6vhYAAAAJ
 
-"Armineh":
-  - firstname: ["Armineh"]
-  - lastname: ["Nourbakhsh"]
+"nourbakhsh":
+  - firstname: ["Armineh", "A.", "A. N.", "Armineh Nourbakhsh"]
     url: https://scholar.google.com/citations?user=Itf3MeIAAAAJ&hl=en
 
-"Daniele":
-  - firstname: ["Daniele"]
-  - lastname: ["Nourbakhsh"]
+"magazzeni":
+  - firstname: ["Daniele", "D.", "D. M.", "Daniele Magazzeni"]
     url: https://scholar.google.com/citations?user=IWXDluMAAAAJ&hl=en
 
-"Xiaomo":
-  - firstname: ["Xiaomo"]
-  - lastname: ["Liu"]
+"liu":
+  - firstname: ["Xiaomo", "X.", "X. L.", "Xiaomo Liu"]
     url: https://scholar.google.com/citations?user=4WGDW8kAAAAJ&hl=en
 
-"Xiaodan":
-  - firstname: ["Xiaodan"]
-  - lastname: ["Zhu"]
+"zhu":
+  - firstname: ["Xiaodan", "X.", "X. Z.", "Xiaodan Zhu"]
     url: https://scholar.google.com/citations?hl=en&user=a6MYnuUAAAAJ
+
+"patra":
+  - firstname: ["Sunandita", "S.", "S. P.", "Sunandita Patra"]
+    url: https://scholar.google.com/citations?hl=en&user=VMTRIgoAAAAJ
+
+"dervovic":
+  - firstname: ["Danial", "D.", "D. D.", "Danial Dervovic"]
+    url: https://scholar.google.com/citations?user=ttWrIOcAAAAJ&hl=en
+
+"gopalakrishnan":
+  - firstname: ["Sriram", "S.", "S. G.", "Sriram Gopalakrishnan"]
+    url: https://scholar.google.com/citations?hl=en&user=So86Wl4AAAAJ
+
+"lockhart":
+  - firstname: ["Joshua", "J.", "J. L.", "Joshua Lockhart"]
+    url: https://scholar.google.com/citations?user=nzUcg9cAAAAJ&hl=en
+  
+"byrd":
+  - firstname: ["David", "D.", "D. B.", "David Byrd"]
+    url: https://scholar.google.com/citations?hl=en&user=lF8h840AAAAJ
+
+"suau":
+  - firstname: ["Miguel", "M.", "M. S.", "Miguel Suau"]
+    url: https://scholar.google.com/citations?hl=en&user=y2xDas0AAAAJ
