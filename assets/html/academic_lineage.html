@@ -48,7 +48,6 @@
         }
         
         .node circle {
-            fill: #4CAF50;
             stroke: #fff;
             stroke-width: 2px;
             transition: r 0.3s, fill 0.3s;
@@ -63,7 +62,6 @@
         }
         
         .link {
-            stroke: #4CAF50;
             stroke-opacity: 0.4;
             stroke-width: 0.5px;
             fill: none;
@@ -112,7 +110,7 @@
         const nodeData = {
             "Mahmoud Mahfouz": { 
                 description: "Researcher in AI and machine learning",
-                url: null 
+                url: "https://scholar.google.com/citations?user=FAusNh8AAAAJ" 
             },
             "Daniele Magazzeni": { 
                 description: "Professor of AI and Automated Planning",
@@ -136,27 +134,27 @@
             },
             "Adnan Darwiche": { 
                 description: "Professor of Computer Science, expert in probabilistic reasoning",
-                url: null
+                url: "https://scholar.google.com/citations?hl=en&user=NzyvbZoAAAAJ"
             },
             "Judea Pearl": { 
                 description: "Computer scientist, winner of the Turing Award for causal reasoning",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Judea_Pearl"
             },
             "Anthony G. Constantinides": { 
                 description: "Professor of Signal Processing",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Anthony_G._Constantinides"
             },
             "Simon Haykin": { 
                 description: "Professor of Electrical Engineering, neural networks pioneer",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Simon_Haykin"
             },
             "Robert C. Berwick": { 
                 description: "Professor of Computational Linguistics",
-                url: null
+                url: "https://scholar.google.com/citations?user=7xH1C7IAAAAJ&hl=en"
             },
             "Noam Chomsky": { 
                 description: "Linguist, philosopher, and cognitive scientist",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Noam_Chomsky"
             },
             "Erica Melis": { 
                 description: "Professor of Computer Science, automated reasoning",
@@ -168,15 +166,15 @@
             },
             "Dana S. Scott": { 
                 description: "Mathematician and computer scientist, Turing Award winner",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Dana_Scott"
             },
             "Robin O. Gandy": { 
                 description: "Mathematical logician",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Robin_Gandy"
             },
             "Alan M. Turing": { 
                 description: "Mathematician, computer scientist, and cryptanalyst",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Alan_Turing"
             },
             "Michael H. Bowling": { 
                 description: "Professor of Computing Science, reinforcement learning",
@@ -184,43 +182,43 @@
             },
             "Demis Hassabis": { 
                 description: "AI researcher, co-founder of DeepMind",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Demis_Hassabis"
             },
             "Peter Stone": { 
                 description: "Professor of Computer Science, robotics and multi-agent systems",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Peter_Stone_(professor)"
             },
             "Barbara J. Grosz": { 
                 description: "Professor of Computer Science, AI and natural language processing",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Barbara_J._Grosz"
             },
             "Marvin Minsky": { 
                 description: "Cognitive scientist, co-founder of AI field",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Marvin_Minsky"
             },
             "Richard S. Sutton": { 
                 description: "Computer scientist, pioneer of reinforcement learning",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Richard_S._Sutton"
             },
             "Dana S. Nau": { 
                 description: "Professor of Computer Science, automated planning",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Dana_S._Nau"
             },
             "James A. Hendler": { 
                 description: "Computer scientist, Semantic Web pioneer",
-                url: null
+                url: "https://en.wikipedia.org/wiki/James_Hendler"
             },
             "Tim Berners-Lee": { 
                 description: "Computer scientist, inventor of the World Wide Web",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Tim_Berners-Lee"
             },
             "Preslav Nakov": { 
                 description: "Researcher in natural language processing",
-                url: null
+                url: "https://scholar.google.com/citations?user=DfXsKZ4AAAAJ&hl=en"
             },
             "Michael A. Wooldridge": { 
                 description: "Professor of Computer Science, multi-agent systems",
-                url: null
+                url: "https://en.wikipedia.org/wiki/Michael_Wooldridge_(computer_scientist)"
             }
         };
 
@@ -328,6 +326,54 @@
         const levels = calculateLevels();
         const maxLevel = Math.max(...Array.from(levels.values()));
         
+        // Color scheme based on distance from Mahmoud Mahfouz
+        // Each level gets a distinct color, with furthest nodes having different colors
+        const levelColors = [
+            "#4CAF50",  // Level 0: Green (Mahmoud Mahfouz)
+            "#2196F3",  // Level 1: Blue
+            "#00BCD4",  // Level 2: Cyan
+            "#FF9800",  // Level 3: Orange
+            "#F44336",  // Level 4: Red
+            "#9C27B0",  // Level 5: Purple
+            "#673AB7",  // Level 6: Deep Purple
+            "#3F51B5"   // Level 7+: Indigo
+        ];
+        
+        function getNodeColor(level) {
+            return levelColors[Math.min(level, levelColors.length - 1)] || levelColors[levelColors.length - 1];
+        }
+        
+        // Add arrow markers for links - create one for each color
+        const defs = svg.append("defs");
+        levelColors.forEach((color, index) => {
+            const arrowMarker = defs.append("marker")
+                .attr("id", `arrowhead-${index}`)
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 15)
+                .attr("refY", 0)
+                .attr("markerWidth", 6)
+                .attr("markerHeight", 6)
+                .attr("orient", "auto");
+            
+            arrowMarker.append("path")
+                .attr("d", "M0,-5L10,0L0,5")
+                .attr("fill", color);
+        });
+        
+        // Default arrow marker
+        const defaultArrowMarker = defs.append("marker")
+            .attr("id", "arrowhead-default")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 15)
+            .attr("refY", 0)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto");
+        
+        defaultArrowMarker.append("path")
+            .attr("d", "M0,-5L10,0L0,5")
+            .attr("fill", "#4CAF50");
+        
         // Group nodes by level
         const nodesByLevel = new Map();
         nodes.forEach(node => {
@@ -338,32 +384,31 @@
             nodesByLevel.get(level).push(node);
         });
         
-        // Position nodes in radial layout with Mahmoud at center
-        const centerX = width / 2;
-        const centerY = height / 2;
-        // Scale radius based on available space to ensure everything fits
-        const minDimension = Math.min(width, height);
-        const baseRadius = Math.max(40, minDimension * 0.08);
-        const radiusStep = Math.max(60, minDimension * 0.12);
+        // Position nodes in horizontal layout with Mahmoud on the left
+        let padding = 80;
+        let columnSpacing = (width - 2 * padding) / (maxLevel + 1);
+        let startX = padding;
         
         nodes.forEach(node => {
-            if (node.id === "Mahmoud Mahfouz") {
-                node.x = centerX;
-                node.y = centerY;
-                node.fx = centerX;
-                node.fy = centerY;
+            const level = levels.get(node.id) || 0;
+            const levelNodes = nodesByLevel.get(level);
+            const indexInLevel = levelNodes.indexOf(node);
+            const totalInLevel = levelNodes.length;
+            
+            // X position: based on level (column)
+            node.x = startX + level * columnSpacing;
+            node.fx = node.x;
+            
+            // Y position: distribute nodes vertically within each level
+            if (totalInLevel === 1) {
+                node.y = height / 2;
             } else {
-                const level = levels.get(node.id) || 1;
-                const radius = baseRadius + (level - 1) * radiusStep;
-                const levelNodes = nodesByLevel.get(level);
-                const indexInLevel = levelNodes.indexOf(node);
-                const totalInLevel = levelNodes.length;
-                const angle = (indexInLevel / totalInLevel) * 2 * Math.PI - Math.PI / 2; // Start from top
-                node.x = centerX + radius * Math.cos(angle);
-                node.y = centerY + radius * Math.sin(angle);
-                node.fx = node.x;
-                node.fy = node.y;
+                const verticalPadding = 60;
+                const availableHeight = height - 2 * verticalPadding;
+                const nodeSpacing = totalInLevel > 1 ? availableHeight / (totalInLevel - 1) : 0;
+                node.y = verticalPadding + indexInLevel * nodeSpacing;
             }
+            node.fy = node.y;
         });
         
         // No simulation - completely static layout
@@ -375,7 +420,26 @@
             .data(links)
             .enter()
             .append("line")
-            .attr("class", "link");
+            .attr("class", "link")
+            .attr("stroke", d => {
+                const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
+                const source = nodes.find(n => n.id === sourceId);
+                if (source) {
+                    const level = levels.get(source.id) || 0;
+                    return getNodeColor(level);
+                }
+                return "#4CAF50";
+            })
+            .attr("marker-end", d => {
+                const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
+                const source = nodes.find(n => n.id === sourceId);
+                if (source) {
+                    const level = levels.get(source.id) || 0;
+                    const colorIndex = Math.min(level, levelColors.length - 1);
+                    return `url(#arrowhead-${colorIndex})`;
+                }
+                return "url(#arrowhead-default)";
+            });
         
         // Create nodes (no drag functionality)
         const node = g.append("g")
@@ -387,7 +451,11 @@
             .attr("class", d => `node ${d.group}`);
         
         node.append("circle")
-            .attr("r", 10);
+            .attr("r", 10)
+            .style("fill", d => {
+                const level = levels.get(d.id) || 0;
+                return getNodeColor(level);
+            });
         
         node.append("text")
             .attr("dy", 25)
@@ -443,22 +511,22 @@
                 .attr("x1", d => {
                     const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
                     const source = nodes.find(n => n.id === sourceId);
-                    return source ? source.x : centerX;
+                    return source ? source.x : startX;
                 })
                 .attr("y1", d => {
                     const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
                     const source = nodes.find(n => n.id === sourceId);
-                    return source ? source.y : centerY;
+                    return source ? source.y : height / 2;
                 })
                 .attr("x2", d => {
                     const targetId = typeof d.target === 'string' ? d.target : d.target.id;
                     const target = nodes.find(n => n.id === targetId);
-                    return target ? target.x : centerX;
+                    return target ? target.x : startX;
                 })
                 .attr("y2", d => {
                     const targetId = typeof d.target === 'string' ? d.target : d.target.id;
                     const target = nodes.find(n => n.id === targetId);
-                    return target ? target.y : centerY;
+                    return target ? target.y : height / 2;
                 });
             
             node.attr("transform", d => `translate(${d.x},${d.y})`);
@@ -472,32 +540,31 @@
             const newHeight = container.clientHeight;
             svg.attr("width", newWidth).attr("height", newHeight);
             
-            // Recalculate positions with new center
-            const newCenterX = newWidth / 2;
-            const newCenterY = newHeight / 2;
+            // Recalculate positions with new dimensions
+            padding = 80;
+            columnSpacing = (newWidth - 2 * padding) / (maxLevel + 1);
+            startX = padding;
             
             nodes.forEach(node => {
-                if (node.id === "Mahmoud Mahfouz") {
-                    node.x = newCenterX;
-                    node.y = newCenterY;
-                    node.fx = newCenterX;
-                    node.fy = newCenterY;
+                const level = levels.get(node.id) || 0;
+                const levelNodes = nodesByLevel.get(level);
+                const indexInLevel = levelNodes.indexOf(node);
+                const totalInLevel = levelNodes.length;
+                
+                // X position: based on level (column)
+                node.x = startX + level * columnSpacing;
+                node.fx = node.x;
+                
+                // Y position: distribute nodes vertically within each level
+                if (totalInLevel === 1) {
+                    node.y = newHeight / 2;
                 } else {
-                    const level = levels.get(node.id) || 1;
-                    // Recalculate radius with new dimensions
-                    const newMinDimension = Math.min(newWidth, newHeight);
-                    const newBaseRadius = Math.max(40, newMinDimension * 0.08);
-                    const newRadiusStep = Math.max(60, newMinDimension * 0.12);
-                    const radius = newBaseRadius + (level - 1) * newRadiusStep;
-                    const levelNodes = nodesByLevel.get(level);
-                    const indexInLevel = levelNodes.indexOf(node);
-                    const totalInLevel = levelNodes.length;
-                    const angle = (indexInLevel / totalInLevel) * 2 * Math.PI - Math.PI / 2;
-                    node.x = newCenterX + radius * Math.cos(angle);
-                    node.y = newCenterY + radius * Math.sin(angle);
-                    node.fx = node.x;
-                    node.fy = node.y;
+                    const verticalPadding = 60;
+                    const availableHeight = newHeight - 2 * verticalPadding;
+                    const nodeSpacing = totalInLevel > 1 ? availableHeight / (totalInLevel - 1) : 0;
+                    node.y = verticalPadding + indexInLevel * nodeSpacing;
                 }
+                node.fy = node.y;
             });
             
             // Update visual positions

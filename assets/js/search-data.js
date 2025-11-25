@@ -23,9 +23,9 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
-        },{id: "nav-",
-          title: "",
-          description: "",
+        },{id: "nav-academic-lineage",
+          title: "academic lineage",
+          description: "academic lineage based on co-authorship network",
           section: "Navigation",
           handler: () => {
             window.location.href = "/academic-lineage/";
