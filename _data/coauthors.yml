@@ -6,6 +6,10 @@
   - firstname: ["Danilo", "D.", "D. M.", "Danilo Mandic"]
     url: https://scholar.google.co.uk/citations?user=hcxWZkcAAAAJ&hl=en
 
+"farmer":
+  - firstname: ["Doyne", "J.", "J. D.", "Doyne Farmer"]
+    url: https://scholar.google.com/citations?hl=en&user=Rk7g1U0AAAAJ
+
 "balch":
  - firstname: ["Tucker", "T.", "T. B.", "Tucker Balch"]
    url: https://scholar.google.com/citations?user=jM1cT4QAAAAJ&hl=en
@@ -13,6 +17,10 @@
 "borrajo":
   - firstname: ["Daniel", "D.", "D. B.", "Daniel Borrajo"]
     url: https://scholar.google.com/citations?user=gWi0D8IAAAAJ&hl=en
+
+"calinescu":
+  - firstname: ["Anisoara", "A.", "A. C.", "Anisoara Calinescu"]
+    url: https://scholar.google.com/citations?hl=en&user=aCljaCYAAAAJ
 
 "reddy":
   - firstname: ["Prashant", "P.", "P. R.", "Prashant Reddy"]
@@ -69,3 +77,7 @@
 "suau":
   - firstname: ["Miguel", "M.", "M. S.", "Miguel Suau"]
     url: https://scholar.google.com/citations?hl=en&user=y2xDas0AAAAJ
+
+"scholl":
+  - firstname: ["Maarten", "M. ", "M. P. ", "Maarten P. Scholl"]
+    url: https://scholar.google.com/citations?user=rjO7qfYAAAAJ&hl=en
