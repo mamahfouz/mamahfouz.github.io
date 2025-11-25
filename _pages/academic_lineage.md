@@ -1,10 +1,10 @@
 ---
 layout: page
 permalink: /academic-lineage/
-title: 
+title: academic lineage
 nav: true
 nav_order: 3
-description: 
+description: academic lineage based on co-authorship network
 ---
 
 <style>
