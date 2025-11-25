@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Lineage - Mahmoud Mahfouz</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color, #ffffff);
+            color: var(--text-color, #333333);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-color, #333333);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: var(--text-color-secondary, #666666);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        #lineage-container {
+            width: 100%;
+            height: 800px;
+            border: 1px solid var(--border-color, #e0e0e0);
+            border-radius: 8px;
+            background-color: var(--bg-color, #ffffff);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            border-radius: 4px;
+            pointer-events: none;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            max-width: 200px;
+        }
+        
+        .node {
+            cursor: pointer;
+        }
+        
+        .node circle {
+            fill: #4CAF50;
+            stroke: #fff;
+            stroke-width: 2px;
+            transition: r 0.3s, fill 0.3s;
+        }
+        
+        .node.central circle {
+            fill: #2196F3;
+            r: 12;
+        }
+        
+        .node.legendary circle {
+            fill: #FF9800;
+            r: 10;
+        }
+        
+        .node.regular circle {
+            fill: #4CAF50;
+            r: 8;
+        }
+        
+        .node text {
+            font-size: 11px;
+            fill: var(--text-color, #333333);
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+        
+        .link {
+            stroke: #4CAF50;
+            stroke-opacity: 0.6;
+            stroke-width: 2px;
+            fill: none;
+        }
+        
+        .link.highlighted {
+            stroke: #FF5722;
+            stroke-opacity: 1;
+            stroke-width: 3px;
+        }
+        
+        .node.highlighted circle {
+            fill: #FF5722;
+            r: 14;
+        }
+        
+        .node.faded {
+            opacity: 0.2;
+        }
+        
+        .link.faded {
+            opacity: 0.1;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                --bg-color: #1a1a1a;
+                --text-color: #f2f5fa;
+                --text-color-secondary: #b0b0b0;
+                --border-color: #404040;
+            }
+            
+            .node text {
+                fill: #f2f5fa;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Academic Lineage</h1>
+        <p class="subtitle">Interactive visualization of academic mentorship relationships</p>
+        
+        <div class="controls">
+            <button class="btn" onclick="resetView()">Reset View</button>
+            <button class="btn" onclick="centerView()">Center Graph</button>
+            <button class="btn" onclick="highlightPath()">Highlight Path to Turing</button>
+        </div>
+        
+        <div id="lineage-container"></div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+    <script>
+        // Academic lineage data
+        const nodes = [
+            { id: "Mahmoud Mahfouz", group: "central" },
+            { id: "Daniele Magazzeni", group: "regular" },
+            { id: "Danilo P. Mandic", group: "regular" },
+            { id: "Manuela M. Veloso", group: "regular" },
+            { id: "Sunandita Patra", group: "regular" },
+            { id: "Xiaodan Zhu", group: "regular" },
+            { id: "Adnan Darwiche", group: "regular" },
+            { id: "Judea Pearl", group: "legendary" },
+            { id: "Anthony G. Constantinides", group: "regular" },
+            { id: "Simon Haykin", group: "regular" },
+            { id: "Robert C. Berwick", group: "regular" },
+            { id: "Noam Chomsky", group: "legendary" },
+            { id: "Erica Melis", group: "regular" },
+            { id: "Christoph Benzmüller", group: "regular" },
+            { id: "Dana S. Scott", group: "legendary" },
+            { id: "Robin O. Gandy", group: "regular" },
+            { id: "Alan M. Turing", group: "legendary" },
+            { id: "Michael H. Bowling", group: "regular" },
+            { id: "Demis Hassabis", group: "legendary" },
+            { id: "Peter Stone", group: "regular" },
+            { id: "Barbara J. Grosz", group: "regular" },
+            { id: "Marvin Minsky", group: "legendary" },
+            { id: "Richard S. Sutton", group: "legendary" },
+            { id: "Dana S. Nau", group: "regular" },
+            { id: "James A. Hendler", group: "regular" },
+            { id: "Tim Berners-Lee", group: "legendary" },
+            { id: "Preslav Nakov", group: "regular" },
+            { id: "Michael A. Wooldridge", group: "regular" }
+        ];
+        
+        const links = [
+            { source: "Mahmoud Mahfouz", target: "Daniele Magazzeni" },
+            { source: "Mahmoud Mahfouz", target: "Danilo P. Mandic" },
+            { source: "Mahmoud Mahfouz", target: "Manuela M. Veloso" },
+            { source: "Mahmoud Mahfouz", target: "Sunandita Patra" },
+            { source: "Mahmoud Mahfouz", target: "Xiaodan Zhu" },
+            { source: "Daniele Magazzeni", target: "Adnan Darwiche" },
+            { source: "Adnan Darwiche", target: "Judea Pearl" },
+            { source: "Danilo P. Mandic", target: "Anthony G. Constantinides" },
+            { source: "Anthony G. Constantinides", target: "Simon Haykin" },
+            { source: "Simon Haykin", target: "Robert C. Berwick" },
+            { source: "Robert C. Berwick", target: "Noam Chomsky" },
+            { source: "Manuela M. Veloso", target: "Erica Melis" },
+            { source: "Erica Melis", target: "Christoph Benzmüller" },
+            { source: "Christoph Benzmüller", target: "Dana S. Scott" },
+            { source: "Dana S. Scott", target: "Robin O. Gandy" },
+            { source: "Robin O. Gandy", target: "Alan M. Turing" },
+            { source: "Manuela M. Veloso", target: "Michael H. Bowling" },
+            { source: "Michael H. Bowling", target: "Demis Hassabis" },
+            { source: "Manuela M. Veloso", target: "Peter Stone" },
+            { source: "Peter Stone", target: "Barbara J. Grosz" },
+            { source: "Barbara J. Grosz", target: "Marvin Minsky" },
+            { source: "Peter Stone", target: "Richard S. Sutton" },
+            { source: "Sunandita Patra", target: "Dana S. Nau" },
+            { source: "Dana S. Nau", target: "James A. Hendler" },
+            { source: "James A. Hendler", target: "Tim Berners-Lee" },
+            { source: "Xiaodan Zhu", target: "Preslav Nakov" },
+            { source: "Preslav Nakov", target: "Michael A. Wooldridge" }
+        ];
+        
+        // Set up SVG
+        const width = document.getElementById('lineage-container').clientWidth;
+        const height = 800;
+        
+        const svg = d3.select("#lineage-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+        
+        const g = svg.append("g");
+        
+        // Zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([0.1, 4])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+        
+        svg.call(zoom);
+        
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+        
+        // Create force simulation
+        const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+            .force("charge", d3.forceManyBody().strength(-500))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(30));
+        
+        // Create links
+        const link = g.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(links)
+            .enter()
+            .append("line")
+            .attr("class", "link");
+        
+        // Create nodes
+        const node = g.append("g")
+            .attr("class", "nodes")
+            .selectAll("g")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("class", d => `node ${d.group}`)
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+        
+        node.append("circle")
+            .attr("r", d => {
+                if (d.group === "central") return 12;
+                if (d.group === "legendary") return 10;
+                return 8;
+            });
+        
+        node.append("text")
+            .attr("dy", d => {
+                if (d.group === "central") return 25;
+                if (d.group === "legendary") return 22;
+                return 20;
+            })
+            .text(d => d.id)
+            .style("font-size", d => {
+                if (d.group === "central") return "13px";
+                if (d.group === "legendary") return "12px";
+                return "11px";
+            })
+            .style("font-weight", d => {
+                if (d.group === "central" || d.group === "legendary") return "bold";
+                return "normal";
+            });
+        
+        // Add interactivity
+        node.on("mouseover", function(event, d) {
+            tooltip
+                .style("opacity", 1)
+                .html(`<strong>${d.id}</strong>`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+            
+            // Highlight connected nodes
+            const connectedNodes = new Set([d.id]);
+            links.forEach(l => {
+                if (l.source.id === d.id || l.source === d.id) {
+                    connectedNodes.add(l.target.id || l.target);
+                }
+                if (l.target.id === d.id || l.target === d.id) {
+                    connectedNodes.add(l.source.id || l.source);
+                }
+            });
+            
+            node.classed("faded", n => !connectedNodes.has(n.id));
+            link.classed("faded", l => {
+                const sourceId = l.source.id || l.source;
+                const targetId = l.target.id || l.target;
+                return !(connectedNodes.has(sourceId) && connectedNodes.has(targetId));
+            });
+        })
+        .on("mouseout", function() {
+            tooltip.style("opacity", 0);
+            node.classed("faded", false);
+            link.classed("faded", false);
+        })
+        .on("click", function(event, d) {
+            highlightPathToNode(d.id);
+        });
+        
+        // Update positions on simulation tick
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+            
+            node.attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+        
+        // Drag functions
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+        
+        // Control functions
+        function resetView() {
+            node.classed("highlighted", false);
+            link.classed("highlighted", false);
+            node.classed("faded", false);
+            link.classed("faded", false);
+            simulation.alpha(1).restart();
+        }
+        
+        function centerView() {
+            const transform = d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(1);
+            svg.transition().duration(750).call(zoom.transform, transform);
+        }
+        
+        function highlightPath() {
+            highlightPathToNode("Alan M. Turing");
+        }
+        
+        function highlightPathToNode(targetName) {
+            // Reset all highlights
+            node.classed("highlighted", false);
+            link.classed("highlighted", false);
+            node.classed("faded", false);
+            link.classed("faded", false);
+            
+            // Find path from Mahmoud Mahfouz to target
+            const path = findPath("Mahmoud Mahfouz", targetName);
+            
+            if (path.length > 0) {
+                // Highlight nodes in path
+                path.forEach(nodeId => {
+                    node.filter(d => d.id === nodeId).classed("highlighted", true);
+                });
+                
+                // Highlight links in path
+                link.filter(d => {
+                    const sourceId = d.source.id || d.source;
+                    const targetId = d.target.id || d.target;
+                    for (let i = 0; i < path.length - 1; i++) {
+                        if ((sourceId === path[i] && targetId === path[i + 1]) ||
+                            (sourceId === path[i + 1] && targetId === path[i])) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }).classed("highlighted", true);
+                
+                // Fade other nodes and links
+                node.filter(d => !path.includes(d.id)).classed("faded", true);
+                link.filter(d => {
+                    const sourceId = d.source.id || d.source;
+                    const targetId = d.target.id || d.target;
+                    return !path.includes(sourceId) || !path.includes(targetId);
+                }).classed("faded", true);
+            }
+        }
+        
+        function findPath(start, end) {
+            const queue = [[start]];
+            const visited = new Set([start]);
+            
+            while (queue.length > 0) {
+                const path = queue.shift();
+                const current = path[path.length - 1];
+                
+                if (current === end) {
+                    return path;
+                }
+                
+                links.forEach(link => {
+                    const sourceId = link.source.id || link.source;
+                    const targetId = link.target.id || link.target;
+                    
+                    if (sourceId === current && !visited.has(targetId)) {
+                        visited.add(targetId);
+                        queue.push([...path, targetId]);
+                    } else if (targetId === current && !visited.has(sourceId)) {
+                        visited.add(sourceId);
+                        queue.push([...path, sourceId]);
+                    }
+                });
+            }
+            
+            return [];
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const newWidth = document.getElementById('lineage-container').clientWidth;
+            svg.attr("width", newWidth);
+            simulation.force("center", d3.forceCenter(newWidth / 2, height / 2));
+            simulation.alpha(1).restart();
+        });
+        
+        // Initialize view
+        setTimeout(() => {
+            centerView();
+        }, 100);
+    </script>
+</body>
+</html>
