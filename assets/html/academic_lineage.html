@@ -48,23 +48,8 @@
             transition: r 0.3s, fill 0.3s;
         }
         
-        .node.central circle {
-            fill: #2196F3;
-            r: 12;
-        }
-        
-        .node.legendary circle {
-            fill: #FF9800;
-            r: 10;
-        }
-        
-        .node.regular circle {
-            fill: #4CAF50;
-            r: 8;
-        }
-        
         .node text {
-            font-size: 11px;
+            font-size: 13px;
             fill: var(--text-color, #333333);
             pointer-events: none;
             text-anchor: middle;
@@ -349,8 +334,8 @@
         // Position nodes in radial layout with Mahmoud at center
         const centerX = width / 2;
         const centerY = height / 2;
-        const baseRadius = 100;
-        const radiusStep = 130;
+        const baseRadius = 60;
+        const radiusStep = 80;
         
         nodes.forEach(node => {
             if (node.id === "Mahmoud Mahfouz") {
@@ -393,28 +378,13 @@
             .attr("class", d => `node ${d.group}`);
         
         node.append("circle")
-            .attr("r", d => {
-                if (d.group === "central") return 12;
-                if (d.group === "legendary") return 10;
-                return 8;
-            });
+            .attr("r", 10);
         
         node.append("text")
-            .attr("dy", d => {
-                if (d.group === "central") return 25;
-                if (d.group === "legendary") return 22;
-                return 20;
-            })
+            .attr("dy", 25)
             .text(d => d.id)
-            .style("font-size", d => {
-                if (d.group === "central") return "13px";
-                if (d.group === "legendary") return "12px";
-                return "11px";
-            })
-            .style("font-weight", d => {
-                if (d.group === "central" || d.group === "legendary") return "bold";
-                return "normal";
-            });
+            .style("font-size", "13px")
+            .style("font-weight", "normal");
         
         // Add interactivity
         node.on("mouseover", function(event, d) {
