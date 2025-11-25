@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academic Lineage - Mahmoud Mahfouz</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: 'Roboto', sans-serif;
             background-color: var(--bg-color, #ffffff);
             color: var(--text-color, #333333);
@@ -16,8 +22,8 @@
         }
         
         #lineage-container {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background-color: var(--bg-color, #ffffff);
             position: relative;
             overflow: hidden;
@@ -279,9 +285,10 @@
             { source: "Preslav Nakov", target: "Michael A. Wooldridge" }
         ];
         
-        // Set up SVG
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        // Set up SVG - use container dimensions to avoid scrollbar issues
+        const container = document.getElementById('lineage-container');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
         
         const svg = d3.select("#lineage-container")
             .append("svg")
@@ -334,8 +341,10 @@
         // Position nodes in radial layout with Mahmoud at center
         const centerX = width / 2;
         const centerY = height / 2;
-        const baseRadius = 60;
-        const radiusStep = 80;
+        // Scale radius based on available space to ensure everything fits
+        const minDimension = Math.min(width, height);
+        const baseRadius = Math.max(40, minDimension * 0.08);
+        const radiusStep = Math.max(60, minDimension * 0.12);
         
         nodes.forEach(node => {
             if (node.id === "Mahmoud Mahfouz") {
@@ -459,8 +468,8 @@
         
         // Handle window resize
         window.addEventListener('resize', () => {
-            const newWidth = window.innerWidth;
-            const newHeight = window.innerHeight;
+            const newWidth = container.clientWidth;
+            const newHeight = container.clientHeight;
             svg.attr("width", newWidth).attr("height", newHeight);
             
             // Recalculate positions with new center
@@ -475,7 +484,11 @@
                     node.fy = newCenterY;
                 } else {
                     const level = levels.get(node.id) || 1;
-                    const radius = baseRadius + (level - 1) * radiusStep;
+                    // Recalculate radius with new dimensions
+                    const newMinDimension = Math.min(newWidth, newHeight);
+                    const newBaseRadius = Math.max(40, newMinDimension * 0.08);
+                    const newRadiusStep = Math.max(60, newMinDimension * 0.12);
+                    const radius = newBaseRadius + (level - 1) * newRadiusStep;
                     const levelNodes = nodesByLevel.get(level);
                     const indexInLevel = levelNodes.indexOf(node);
                     const totalInLevel = levelNodes.length;

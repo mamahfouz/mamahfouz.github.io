@@ -7,12 +7,39 @@ nav_order: 3
 description: 
 ---
 
-<div style="width: 100%; height: 100vh; margin: 0; padding: 0;">
+<style>
+  /* Override container styles for full-page visualization */
+  .container {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: calc(100vh - 56px); /* Full viewport minus navbar */
+  }
+  
+  .lineage-wrapper {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+  }
+  
+  .lineage-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+</style>
+
+<div class="lineage-wrapper">
   <iframe
     src="{{ '/assets/html/academic_lineage.html' | relative_url }}"
     frameborder="0"
     scrolling="no"
-    style="width: 100%; height: 100%; border: none;"
     title="Academic Lineage Visualization">
   </iframe>
 </div>
