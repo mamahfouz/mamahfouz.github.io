@@ -73,15 +73,15 @@
         
         .link {
             stroke: #4CAF50;
-            stroke-opacity: 0.6;
-            stroke-width: 1px;
+            stroke-opacity: 0.4;
+            stroke-width: 0.5px;
             fill: none;
         }
         
         .link.highlighted {
             stroke: #FF5722;
             stroke-opacity: 1;
-            stroke-width: 2px;
+            stroke-width: 1px;
         }
         
         .node.highlighted circle {
@@ -305,24 +305,74 @@
         
         const g = svg.append("g");
         
-        // Zoom behavior
-        const zoom = d3.zoom()
-            .scaleExtent([0.1, 4])
-            .on("zoom", (event) => {
-                g.attr("transform", event.transform);
-            });
-        
-        svg.call(zoom);
-        
         // Tooltip
         const tooltip = d3.select("#tooltip");
         
-        // Create force simulation
-        const simulation = d3.forceSimulation(nodes)
-            .force("link", d3.forceLink(links).id(d => d.id).distance(150))
-            .force("charge", d3.forceManyBody().strength(-500))
-            .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collision", d3.forceCollide().radius(30));
+        // Calculate hierarchical levels from Mahmoud Mahfouz
+        function calculateLevels() {
+            const levels = new Map();
+            const queue = [["Mahmoud Mahfouz", 0]];
+            levels.set("Mahmoud Mahfouz", 0);
+            
+            while (queue.length > 0) {
+                const [current, level] = queue.shift();
+                links.forEach(link => {
+                    const sourceId = link.source.id || link.source;
+                    const targetId = link.target.id || link.target;
+                    
+                    if (sourceId === current && !levels.has(targetId)) {
+                        levels.set(targetId, level + 1);
+                        queue.push([targetId, level + 1]);
+                    } else if (targetId === current && !levels.has(sourceId)) {
+                        levels.set(sourceId, level + 1);
+                        queue.push([sourceId, level + 1]);
+                    }
+                });
+            }
+            
+            return levels;
+        }
+        
+        const levels = calculateLevels();
+        const maxLevel = Math.max(...Array.from(levels.values()));
+        
+        // Group nodes by level
+        const nodesByLevel = new Map();
+        nodes.forEach(node => {
+            const level = levels.get(node.id) || 0;
+            if (!nodesByLevel.has(level)) {
+                nodesByLevel.set(level, []);
+            }
+            nodesByLevel.get(level).push(node);
+        });
+        
+        // Position nodes in radial layout with Mahmoud at center
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const baseRadius = 100;
+        const radiusStep = 130;
+        
+        nodes.forEach(node => {
+            if (node.id === "Mahmoud Mahfouz") {
+                node.x = centerX;
+                node.y = centerY;
+                node.fx = centerX;
+                node.fy = centerY;
+            } else {
+                const level = levels.get(node.id) || 1;
+                const radius = baseRadius + (level - 1) * radiusStep;
+                const levelNodes = nodesByLevel.get(level);
+                const indexInLevel = levelNodes.indexOf(node);
+                const totalInLevel = levelNodes.length;
+                const angle = (indexInLevel / totalInLevel) * 2 * Math.PI - Math.PI / 2; // Start from top
+                node.x = centerX + radius * Math.cos(angle);
+                node.y = centerY + radius * Math.sin(angle);
+                node.fx = node.x;
+                node.fy = node.y;
+            }
+        });
+        
+        // No simulation - completely static layout
         
         // Create links
         const link = g.append("g")
@@ -333,18 +383,14 @@
             .append("line")
             .attr("class", "link");
         
-        // Create nodes
+        // Create nodes (no drag functionality)
         const node = g.append("g")
             .attr("class", "nodes")
             .selectAll("g")
             .data(nodes)
             .enter()
             .append("g")
-            .attr("class", d => `node ${d.group}`)
-            .call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));
+            .attr("class", d => `node ${d.group}`);
         
         node.append("circle")
             .attr("r", d => {
@@ -383,18 +429,20 @@
             // Highlight connected nodes
             const connectedNodes = new Set([d.id]);
             links.forEach(l => {
-                if (l.source.id === d.id || l.source === d.id) {
-                    connectedNodes.add(l.target.id || l.target);
+                const sourceId = typeof l.source === 'string' ? l.source : l.source.id;
+                const targetId = typeof l.target === 'string' ? l.target : l.target.id;
+                if (sourceId === d.id) {
+                    connectedNodes.add(targetId);
                 }
-                if (l.target.id === d.id || l.target === d.id) {
-                    connectedNodes.add(l.source.id || l.source);
+                if (targetId === d.id) {
+                    connectedNodes.add(sourceId);
                 }
             });
             
             node.classed("faded", n => !connectedNodes.has(n.id));
             link.classed("faded", l => {
-                const sourceId = l.source.id || l.source;
-                const targetId = l.target.id || l.target;
+                const sourceId = typeof l.source === 'string' ? l.source : l.source.id;
+                const targetId = typeof l.target === 'string' ? l.target : l.target.id;
                 return !(connectedNodes.has(sourceId) && connectedNodes.has(targetId));
             });
         })
@@ -410,67 +458,67 @@
             }
         });
         
-        // Update positions on simulation tick
-        simulation.on("tick", () => {
+        // Render static layout immediately
+        function updatePositions() {
             link
-                .attr("x1", d => d.source.x)
-                .attr("y1", d => d.source.y)
-                .attr("x2", d => d.target.x)
-                .attr("y2", d => d.target.y);
+                .attr("x1", d => {
+                    const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
+                    const source = nodes.find(n => n.id === sourceId);
+                    return source ? source.x : centerX;
+                })
+                .attr("y1", d => {
+                    const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
+                    const source = nodes.find(n => n.id === sourceId);
+                    return source ? source.y : centerY;
+                })
+                .attr("x2", d => {
+                    const targetId = typeof d.target === 'string' ? d.target : d.target.id;
+                    const target = nodes.find(n => n.id === targetId);
+                    return target ? target.x : centerX;
+                })
+                .attr("y2", d => {
+                    const targetId = typeof d.target === 'string' ? d.target : d.target.id;
+                    const target = nodes.find(n => n.id === targetId);
+                    return target ? target.y : centerY;
+                });
             
             node.attr("transform", d => `translate(${d.x},${d.y})`);
-        });
-        
-        // Drag functions
-        function dragstarted(event, d) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
         }
         
-        function dragged(event, d) {
-            d.fx = event.x;
-            d.fy = event.y;
-        }
-        
-        function dragended(event, d) {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
-        
-        // Center on Mahmoud Mahfouz after simulation stabilizes
-        let centered = false;
-        function centerOnMahmoud() {
-            if (centered) return;
-            const mahmoudNode = nodes.find(n => n.id === "Mahmoud Mahfouz");
-            if (mahmoudNode && mahmoudNode.x && mahmoudNode.y && !isNaN(mahmoudNode.x) && !isNaN(mahmoudNode.y)) {
-                const transform = d3.zoomIdentity
-                    .translate(width / 2 - mahmoudNode.x, height / 2 - mahmoudNode.y)
-                    .scale(1.2);
-                svg.transition().duration(1000).call(zoom.transform, transform);
-                centered = true;
-            }
-        }
-        
-        // Check periodically if we can center
-        const centerInterval = setInterval(() => {
-            if (!centered) {
-                centerOnMahmoud();
-            } else {
-                clearInterval(centerInterval);
-            }
-        }, 100);
+        updatePositions();
         
         // Handle window resize
         window.addEventListener('resize', () => {
             const newWidth = window.innerWidth;
             const newHeight = window.innerHeight;
             svg.attr("width", newWidth).attr("height", newHeight);
-            simulation.force("center", d3.forceCenter(newWidth / 2, newHeight / 2));
-            simulation.alpha(1).restart();
-            centered = false;
-            setTimeout(() => centerOnMahmoud(), 500);
+            
+            // Recalculate positions with new center
+            const newCenterX = newWidth / 2;
+            const newCenterY = newHeight / 2;
+            
+            nodes.forEach(node => {
+                if (node.id === "Mahmoud Mahfouz") {
+                    node.x = newCenterX;
+                    node.y = newCenterY;
+                    node.fx = newCenterX;
+                    node.fy = newCenterY;
+                } else {
+                    const level = levels.get(node.id) || 1;
+                    const radius = baseRadius + (level - 1) * radiusStep;
+                    const levelNodes = nodesByLevel.get(level);
+                    const indexInLevel = levelNodes.indexOf(node);
+                    const totalInLevel = levelNodes.length;
+                    const angle = (indexInLevel / totalInLevel) * 2 * Math.PI - Math.PI / 2;
+                    node.x = newCenterX + radius * Math.cos(angle);
+                    node.y = newCenterY + radius * Math.sin(angle);
+                    node.fx = node.x;
+                    node.fy = node.y;
+                }
+            });
+            
+            // Update visual positions
+            updatePositions();
         });
     </script>
 </body>

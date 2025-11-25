@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /academic-lineage/
-title: Academic Lineage
+title: 
 nav: true
 nav_order: 3
 description: 
