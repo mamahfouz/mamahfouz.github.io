@@ -7,64 +7,20 @@
     <style>
         body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             font-family: 'Roboto', sans-serif;
             background-color: var(--bg-color, #ffffff);
             color: var(--text-color, #333333);
             transition: background-color 0.3s, color 0.3s;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: var(--text-color, #333333);
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: var(--text-color-secondary, #666666);
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
-        #lineage-container {
-            width: 100%;
-            height: 800px;
-            border: 1px solid var(--border-color, #e0e0e0);
-            border-radius: 8px;
-            background-color: var(--bg-color, #ffffff);
-            position: relative;
             overflow: hidden;
         }
         
-        .controls {
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: #45a049;
-        }
-        
-        .btn:active {
-            transform: scale(0.98);
+        #lineage-container {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color, #ffffff);
+            position: relative;
+            overflow: hidden;
         }
         
         .tooltip {
@@ -118,14 +74,14 @@
         .link {
             stroke: #4CAF50;
             stroke-opacity: 0.6;
-            stroke-width: 2px;
+            stroke-width: 1px;
             fill: none;
         }
         
         .link.highlighted {
             stroke: #FF5722;
             stroke-opacity: 1;
-            stroke-width: 3px;
+            stroke-width: 2px;
         }
         
         .node.highlighted circle {
@@ -156,24 +112,127 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Academic Lineage</h1>
-        <p class="subtitle">Interactive visualization of academic mentorship relationships</p>
-        
-        <div class="controls">
-            <button class="btn" onclick="resetView()">Reset View</button>
-            <button class="btn" onclick="centerView()">Center Graph</button>
-            <button class="btn" onclick="highlightPath()">Highlight Path to Turing</button>
-        </div>
-        
-        <div id="lineage-container"></div>
-    </div>
-    
+    <div id="lineage-container"></div>
     <div class="tooltip" id="tooltip"></div>
     
     <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
     <script>
-        // Academic lineage data
+        // Academic lineage data with descriptions and URLs
+        const nodeData = {
+            "Mahmoud Mahfouz": { 
+                description: "Researcher in AI and machine learning",
+                url: null 
+            },
+            "Daniele Magazzeni": { 
+                description: "Professor of AI and Automated Planning",
+                url: "https://scholar.google.com/citations?user=IWXDluMAAAAJ&hl=en"
+            },
+            "Danilo P. Mandic": { 
+                description: "Professor of Signal Processing and Machine Learning",
+                url: "https://scholar.google.co.uk/citations?user=hcxWZkcAAAAJ&hl=en"
+            },
+            "Manuela M. Veloso": { 
+                description: "Professor of Computer Science, AI and Robotics researcher",
+                url: "https://en.wikipedia.org/wiki/Manuela_M._Veloso"
+            },
+            "Sunandita Patra": { 
+                description: "Researcher in AI and automated planning",
+                url: "https://scholar.google.com/citations?hl=en&user=VMTRIgoAAAAJ"
+            },
+            "Xiaodan Zhu": { 
+                description: "Researcher in natural language processing",
+                url: "https://scholar.google.com/citations?hl=en&user=a6MYnuUAAAAJ"
+            },
+            "Adnan Darwiche": { 
+                description: "Professor of Computer Science, expert in probabilistic reasoning",
+                url: null
+            },
+            "Judea Pearl": { 
+                description: "Computer scientist, winner of the Turing Award for causal reasoning",
+                url: null
+            },
+            "Anthony G. Constantinides": { 
+                description: "Professor of Signal Processing",
+                url: null
+            },
+            "Simon Haykin": { 
+                description: "Professor of Electrical Engineering, neural networks pioneer",
+                url: null
+            },
+            "Robert C. Berwick": { 
+                description: "Professor of Computational Linguistics",
+                url: null
+            },
+            "Noam Chomsky": { 
+                description: "Linguist, philosopher, and cognitive scientist",
+                url: null
+            },
+            "Erica Melis": { 
+                description: "Professor of Computer Science, automated reasoning",
+                url: null
+            },
+            "Christoph Benzmüller": { 
+                description: "Professor of Computer Science, formal methods",
+                url: null
+            },
+            "Dana S. Scott": { 
+                description: "Mathematician and computer scientist, Turing Award winner",
+                url: null
+            },
+            "Robin O. Gandy": { 
+                description: "Mathematical logician",
+                url: null
+            },
+            "Alan M. Turing": { 
+                description: "Mathematician, computer scientist, and cryptanalyst",
+                url: null
+            },
+            "Michael H. Bowling": { 
+                description: "Professor of Computing Science, reinforcement learning",
+                url: null
+            },
+            "Demis Hassabis": { 
+                description: "AI researcher, co-founder of DeepMind",
+                url: null
+            },
+            "Peter Stone": { 
+                description: "Professor of Computer Science, robotics and multi-agent systems",
+                url: null
+            },
+            "Barbara J. Grosz": { 
+                description: "Professor of Computer Science, AI and natural language processing",
+                url: null
+            },
+            "Marvin Minsky": { 
+                description: "Cognitive scientist, co-founder of AI field",
+                url: null
+            },
+            "Richard S. Sutton": { 
+                description: "Computer scientist, pioneer of reinforcement learning",
+                url: null
+            },
+            "Dana S. Nau": { 
+                description: "Professor of Computer Science, automated planning",
+                url: null
+            },
+            "James A. Hendler": { 
+                description: "Computer scientist, Semantic Web pioneer",
+                url: null
+            },
+            "Tim Berners-Lee": { 
+                description: "Computer scientist, inventor of the World Wide Web",
+                url: null
+            },
+            "Preslav Nakov": { 
+                description: "Researcher in natural language processing",
+                url: null
+            },
+            "Michael A. Wooldridge": { 
+                description: "Professor of Computer Science, multi-agent systems",
+                url: null
+            }
+        };
+
         const nodes = [
             { id: "Mahmoud Mahfouz", group: "central" },
             { id: "Daniele Magazzeni", group: "regular" },
@@ -236,8 +295,8 @@
         ];
         
         // Set up SVG
-        const width = document.getElementById('lineage-container').clientWidth;
-        const height = 800;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
         
         const svg = d3.select("#lineage-container")
             .append("svg")
@@ -313,9 +372,11 @@
         
         // Add interactivity
         node.on("mouseover", function(event, d) {
+            const data = nodeData[d.id] || {};
+            const description = data.description || d.id;
             tooltip
                 .style("opacity", 1)
-                .html(`<strong>${d.id}</strong>`)
+                .html(`<strong>${d.id}</strong><br/>${description}`)
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 10) + "px");
             
@@ -343,7 +404,10 @@
             link.classed("faded", false);
         })
         .on("click", function(event, d) {
-            highlightPathToNode(d.id);
+            const data = nodeData[d.id] || {};
+            if (data.url) {
+                window.open(data.url, '_blank');
+            }
         });
         
         // Update positions on simulation tick
@@ -375,106 +439,39 @@
             d.fy = null;
         }
         
-        // Control functions
-        function resetView() {
-            node.classed("highlighted", false);
-            link.classed("highlighted", false);
-            node.classed("faded", false);
-            link.classed("faded", false);
-            simulation.alpha(1).restart();
-        }
-        
-        function centerView() {
-            const transform = d3.zoomIdentity
-                .translate(width / 2, height / 2)
-                .scale(1);
-            svg.transition().duration(750).call(zoom.transform, transform);
-        }
-        
-        function highlightPath() {
-            highlightPathToNode("Alan M. Turing");
-        }
-        
-        function highlightPathToNode(targetName) {
-            // Reset all highlights
-            node.classed("highlighted", false);
-            link.classed("highlighted", false);
-            node.classed("faded", false);
-            link.classed("faded", false);
-            
-            // Find path from Mahmoud Mahfouz to target
-            const path = findPath("Mahmoud Mahfouz", targetName);
-            
-            if (path.length > 0) {
-                // Highlight nodes in path
-                path.forEach(nodeId => {
-                    node.filter(d => d.id === nodeId).classed("highlighted", true);
-                });
-                
-                // Highlight links in path
-                link.filter(d => {
-                    const sourceId = d.source.id || d.source;
-                    const targetId = d.target.id || d.target;
-                    for (let i = 0; i < path.length - 1; i++) {
-                        if ((sourceId === path[i] && targetId === path[i + 1]) ||
-                            (sourceId === path[i + 1] && targetId === path[i])) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }).classed("highlighted", true);
-                
-                // Fade other nodes and links
-                node.filter(d => !path.includes(d.id)).classed("faded", true);
-                link.filter(d => {
-                    const sourceId = d.source.id || d.source;
-                    const targetId = d.target.id || d.target;
-                    return !path.includes(sourceId) || !path.includes(targetId);
-                }).classed("faded", true);
+        // Center on Mahmoud Mahfouz after simulation stabilizes
+        let centered = false;
+        function centerOnMahmoud() {
+            if (centered) return;
+            const mahmoudNode = nodes.find(n => n.id === "Mahmoud Mahfouz");
+            if (mahmoudNode && mahmoudNode.x && mahmoudNode.y && !isNaN(mahmoudNode.x) && !isNaN(mahmoudNode.y)) {
+                const transform = d3.zoomIdentity
+                    .translate(width / 2 - mahmoudNode.x, height / 2 - mahmoudNode.y)
+                    .scale(1.2);
+                svg.transition().duration(1000).call(zoom.transform, transform);
+                centered = true;
             }
         }
         
-        function findPath(start, end) {
-            const queue = [[start]];
-            const visited = new Set([start]);
-            
-            while (queue.length > 0) {
-                const path = queue.shift();
-                const current = path[path.length - 1];
-                
-                if (current === end) {
-                    return path;
-                }
-                
-                links.forEach(link => {
-                    const sourceId = link.source.id || link.source;
-                    const targetId = link.target.id || link.target;
-                    
-                    if (sourceId === current && !visited.has(targetId)) {
-                        visited.add(targetId);
-                        queue.push([...path, targetId]);
-                    } else if (targetId === current && !visited.has(sourceId)) {
-                        visited.add(sourceId);
-                        queue.push([...path, sourceId]);
-                    }
-                });
+        // Check periodically if we can center
+        const centerInterval = setInterval(() => {
+            if (!centered) {
+                centerOnMahmoud();
+            } else {
+                clearInterval(centerInterval);
             }
-            
-            return [];
-        }
+        }, 100);
         
         // Handle window resize
         window.addEventListener('resize', () => {
-            const newWidth = document.getElementById('lineage-container').clientWidth;
-            svg.attr("width", newWidth);
-            simulation.force("center", d3.forceCenter(newWidth / 2, height / 2));
+            const newWidth = window.innerWidth;
+            const newHeight = window.innerHeight;
+            svg.attr("width", newWidth).attr("height", newHeight);
+            simulation.force("center", d3.forceCenter(newWidth / 2, newHeight / 2));
             simulation.alpha(1).restart();
+            centered = false;
+            setTimeout(() => centerOnMahmoud(), 500);
         });
-        
-        // Initialize view
-        setTimeout(() => {
-            centerView();
-        }, 100);
     </script>
 </body>
 </html>
